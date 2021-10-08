@@ -1,257 +1,438 @@
-/**
-* Template Name: Arsha - v4.2.0
-* Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function() {
+/* --------------------------------------------------------
+    Table of Contents
+===========================================================
+    1. Custom Cursor JS
+    2. Preloader
+    3. Main Menu
+       3.2. Sub Menu
+    4. Dribbble Button
+    5. Tooltip
+    6. Dribbble Slider
+    7. Portfolio Grid
+    8. Blog Masonry Grid - Single Page
+    9. Blog Masonry Grid
+    10. Clients Feedback Slider
+    11. Clients Logo Slider
+    12. Magnific Popup Gallery
+    13. Magnific Popup Video
+    14. Main Menu : Mouse-over Image
+    15. Counter Up
+    16. Skill Bar
+    17. Back to Top
+    18. Google Map
+    19. Touch, no touch
+-------------------------------------------------------- */
+
+(function ($) {
   "use strict";
 
-  /**
-   * Easy selector helper function
-   */
-  const select = (el, all = false) => {
-    el = el.trim()
-    if (all) {
-      return [...document.querySelectorAll(el)]
-    } else {
-      return document.querySelector(el)
-    }
-  }
+  // 1. Custom Cursor JS
+  // document.getElementsByTagName("body")[0].addEventListener("mousemove", function (n) {
+  //     e.style.left = n.clientX + "px",
+  //         e.style.top = n.clientY + "px"
+  // });
+  // var
+  //     e = document.getElementById("pointer");
 
-  /**
-   * Easy event listener function
-   */
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all)
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener))
-      } else {
-        selectEl.addEventListener(type, listener)
-      }
-    }
-  }
+  // $(document).mousemove(function (e) {
 
-  /**
-   * Easy on scroll event listener 
-   */
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener)
-  }
+  //     $(".theme-bg-color")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("black")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("black")
+  //         })
+  //     $(".pointer-large")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("large")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("large")
+  //         })
+  //     $(".pointer-small")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("small")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("small")
+  //         })
+  //     $(".mfp-img")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("right")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("right")
+  //         })
+  //     $(".pointer-open")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("open")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("open")
+  //         })
+  //     $(".pointer-href")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("href")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("href")
+  //         })
+  //     $(".pointer-input")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("input")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("input")
+  //         })
+  //     $(".pointer-small, .clients-testimonial-active button.owl-dot, .dribbble-slider-active .owl-nav button")
+  //         .on("mouseenter", function () {
+  //             $('.pointer').addClass("small")
+  //         })
+  //         .on("mouseleave", function () {
+  //             $('.pointer').removeClass("small")
+  //         })
+  // });
+  // 2. Preloader
+  $(".loader").fadeOut(1000);
+  $(".loader-mask").delay(1000).slideUp(1000);
 
-  /**
-   * Navbar links active state on scroll
-   */
-  let navbarlinks = select('#navbar .scrollto', true)
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return
-      let section = select(navbarlink.hash)
-      if (!section) return
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active')
-      } else {
-        navbarlink.classList.remove('active')
-      }
-    })
-  }
-  window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
-
-  /**
-   * Scrolls to an element with header offset
-   */
-  const scrollto = (el) => {
-    let header = select('#header')
-    let offset = header.offsetHeight
-
-    let elementPos = select(el).offsetTop
-    window.scrollTo({
-      top: elementPos - offset,
-      behavior: 'smooth'
-    })
-  }
-
-  /**
-   * Toggle .header-scrolled class to #header when page is scrolled
-   */
-  let selectHeader = select('#header')
-  if (selectHeader) {
-    const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled')
-      } else {
-        selectHeader.classList.remove('header-scrolled')
-      }
-    }
-    window.addEventListener('load', headerScrolled)
-    onscroll(document, headerScrolled)
-  }
-
-  /**
-   * Back to top button
-   */
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
-    }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
-  }
-
-  /**
-   * Mobile nav toggle
-   */
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
-
-  /**
-   * Mobile nav dropdowns activate
-   */
-  on('click', '.navbar .dropdown > a', function(e) {
-    if (select('#navbar').classList.contains('navbar-mobile')) {
-      e.preventDefault()
-      this.nextElementSibling.classList.toggle('dropdown-active')
-    }
-  }, true)
-
-  /**
-   * Scrool with ofset on links with a class name .scrollto
-   */
-  on('click', '.scrollto', function(e) {
-    if (select(this.hash)) {
-      e.preventDefault()
-
-      let navbar = select('#navbar')
-      if (navbar.classList.contains('navbar-mobile')) {
-        navbar.classList.remove('navbar-mobile')
-        let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
-      }
-      scrollto(this.hash)
-    }
-  }, true)
-
-  /**
-   * Scroll with ofset on page load with hash links in the url
-   */
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash)
-      }
-    }
+  // 3. Main Menu
+  $(".menu-icon").on("click", function () {
+    $(".menu-container").addClass("active");
   });
 
-  /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
-
-  /**
-   * Initiate  glightbox 
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
+  $(".menu-close").on("click", function () {
+    $(".menu-container").removeClass("active");
   });
 
-  /**
-   * Skills animation
-   */
-  let skilsContent = select('.skills-content');
-  if (skilsContent) {
-    new Waypoint({
-      element: skilsContent,
-      offset: '80%',
-      handler: function(direction) {
-        let progress = select('.progress .progress-bar', true);
-        progress.forEach((el) => {
-          el.style.width = el.getAttribute('aria-valuenow') + '%'
-        });
-      }
-    })
-  }
-
-  /**
-   * Porfolio isotope and filter
-   */
-  window.addEventListener('load', () => {
-    let portfolioContainer = select('.portfolio-container');
-    if (portfolioContainer) {
-      let portfolioIsotope = new Isotope(portfolioContainer, {
-        itemSelector: '.portfolio-item'
-      });
-
-      let portfolioFilters = select('#portfolio-flters li', true);
-
-      on('click', '#portfolio-flters li', function(e) {
-        e.preventDefault();
-        portfolioFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        portfolioIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-        portfolioIsotope.on('arrangeComplete', function() {
-          AOS.refresh()
-        });
-      }, true);
-    }
-
+  // 3.2. Sub Menu
+  $(".submenu-open").on("click", function () {
+    $(this).find(".submenu").addClass("active");
+    $(".nav-link").addClass("done");
+    $(".submenu-close").addClass("active");
   });
 
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
+  $(".submenu-close").on("click", function () {
+    $(".submenu").removeClass("active");
+    $(".nav-link").removeClass("done");
+    $(".submenu-close").removeClass("active");
   });
 
-  /**
-   * Portfolio details slider
-   */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
+  // 4. Dribbble Button
+  $(".dribbble-btn").on("click", function () {
+    $(".dribbble-slider").addClass("dribbble-slider-close");
+  });
+
+  $(".dribbble-close-btn").on("click", function () {
+    $(".dribbble-slider").removeClass("dribbble-slider-close");
+  });
+
+  // 5. Tooltip
+  $('[data-toggle="tooltip"]').tooltip();
+
+  // 6. Dribbble Slider
+  $(".dribbble-slider-active").owlCarousel({
+    navText: [
+      '<i class="fas fa-chevron-left"></i>',
+      '<i class="fas fa-chevron-right"></i>',
+    ],
+    nav: true,
     loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
+    dots: false,
+    autoplay: true,
+    smartSpeed: 1500,
+    autoplaySpeed: 500,
+    autoplayTimeout: 3000,
+    autoplayHoverPause: true,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 1,
+      },
+      1000: {
+        items: 1,
+      },
     },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
   });
 
-  /**
-   * Animation on scroll
-   */
-  window.addEventListener('load', () => {
-    AOS.init({
-      duration: 1000,
-      easing: "ease-in-out",
-      once: true,
-      mirror: false
+  // 7. Portfolio Grid
+  $(".grid").imagesLoaded(function () {
+    // filter items on button click
+    $(".portfolio-btn").on("click", "button", function () {
+      var filterValue = $(this).attr("data-filter");
+      $grid.isotope({
+        filter: filterValue,
+      });
+    });
+
+    var $grid = $(".grid").isotope({
+      // set itemSelector so .grid-sizer is not used in layout
+      itemSelector: ".grid-item",
+      percentPosition: true,
+      masonry: {
+        // use element for option
+        columnWidth: ".grid-item",
+      },
     });
   });
 
-})()
+  //for menu active class
+  $(".portfolio-btn > button").on("click", function (event) {
+    $(this).siblings(".active").removeClass("active");
+    $(this).addClass("active");
+    event.preventDefault();
+  });
+
+  // 8. Blog Masonry Grid - Single Page
+  $(".grid-2").imagesLoaded(function () {
+    var $grid = $(".grid-2").isotope({
+      // set itemSelector so .grid-sizer is not used in layout
+      itemSelector: ".grid-item-2",
+      percentPosition: true,
+      masonry: {
+        // use element for option
+        columnWidth: 1,
+      },
+    });
+  });
+
+  // 9. Blog Masonry Grid
+  $(".grid-3").imagesLoaded(function () {
+    var $grid = $(".grid-3").isotope({
+      // set itemSelector so .grid-sizer is not used in layout
+      itemSelector: ".grid-item-3",
+      percentPosition: true,
+      masonry: {
+        // use element for option
+        columnWidth: ".grid-item-3",
+      },
+    });
+  });
+
+  // 10. Clients Feedback Slider
+  $(".clients-testimonial-active").owlCarousel({
+    loop: true,
+    dots: true,
+    margin: 30,
+    autoplay: false,
+    smartSpeed: 1500,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 1,
+      },
+      1000: {
+        items: 2,
+        margin: 100,
+      },
+    },
+  });
+
+  // 11. Clients Logo Slider
+  $(".clients-logo-carousel").owlCarousel({
+    loop: true,
+    smartSpeed: 1000,
+    margin: 150,
+    autoplay: true,
+    dots: false,
+    responsive: {
+      0: {
+        items: 2,
+        margin: 80,
+      },
+      600: {
+        items: 3,
+      },
+      768: {
+        items: 3,
+        margin: 100,
+      },
+      1000: {
+        items: 3,
+      },
+      1366: {
+        items: 4,
+      },
+    },
+  });
+
+  // 12. Magnific Popup Gallery
+  $(
+    ".gallery_popup, .portfolio_feature_popup, .blog_content_popup"
+  ).magnificPopup({
+    type: "image", // this is default type
+    gallery: {
+      enabled: true,
+    },
+  });
+
+  // 13. Magnific Popup Video
+  $(".popup_video").magnificPopup({
+    type: "iframe", // this is default type
+  });
+
+  // 14. Main Menu : Mouse-over Image
+  $(document).on("mouseover", ".mouseover-image-change", function () {
+    $(this).addClass("active").siblings().removeClass("active");
+  });
+
+  // 15. Counter Up
+  $(".counter").counterUp();
+
+  // 16. Skill Bar
+  $(".skillbar").each(function () {
+    $(this)
+      .find(".skillbar-bar")
+      .animate(
+        {
+          width: $(this).attr("data-parcent"),
+        },
+        3000
+      );
+  });
+
+  // 17. Back to Top
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 80) {
+      $("#back_to_top").fadeIn();
+    } else {
+      $("#back_to_top").fadeOut();
+    }
+  });
+
+  $("#back_to_top").on("click", function () {
+    $("html, body").animate(
+      {
+        scrollTop: 0,
+      },
+      800
+    );
+  });
+
+  // 18. Google map
+  function basicmap() {
+    // Basic options for a simple Google Map
+    // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+    var mapOptions = {
+      // How zoomed in you want the map to start at (always required)
+      zoom: 11,
+      scrollwheel: false,
+      // The latitude and longitude to center the map (always required)
+      center: new google.maps.LatLng(32.941236, -97.134178), // New York
+      // This is where you would paste any style found on Snazzy Maps.
+      styles: [
+        {
+          featureType: "all",
+          elementType: "labels.text.fill",
+          stylers: [
+            { saturation: 36 },
+            { color: "#000000" },
+            { lightness: 40 },
+          ],
+        },
+        {
+          featureType: "all",
+          elementType: "labels.text.stroke",
+          stylers: [
+            { visibility: "on" },
+            { color: "#000000" },
+            { lightness: 16 },
+          ],
+        },
+        {
+          featureType: "all",
+          elementType: "labels.icon",
+          stylers: [{ visibility: "off" }],
+        },
+        {
+          featureType: "administrative",
+          elementType: "geometry.fill",
+          stylers: [{ color: "#000000" }, { lightness: 20 }],
+        },
+        {
+          featureType: "administrative",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#000000" }, { lightness: 17 }, { weight: 1.2 }],
+        },
+        {
+          featureType: "landscape",
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }, { lightness: 20 }],
+        },
+        {
+          featureType: "poi",
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }, { lightness: 21 }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry.fill",
+          stylers: [{ color: "#000000" }, { lightness: 17 }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#000000" }, { lightness: 29 }, { weight: 0.2 }],
+        },
+        {
+          featureType: "road.arterial",
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }, { lightness: 18 }],
+        },
+        {
+          featureType: "road.local",
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }, { lightness: 16 }],
+        },
+        {
+          featureType: "transit",
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }, { lightness: 19 }],
+        },
+        {
+          featureType: "water",
+          elementType: "geometry",
+          stylers: [{ color: "#000000" }, { lightness: 17 }],
+        },
+      ],
+    };
+    // Get the HTML DOM element that will contain your map
+    // We are using a div with id="map" seen below in the <body>
+    var mapElement = document.getElementById("map");
+
+    // Create the Google Map using our element and options defined above
+    var map = new google.maps.Map(mapElement, mapOptions);
+
+    // Let's also add a marker while we're at it
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(32.941236, -97.134178),
+      map: map,
+      title: "Fariha",
+    });
+  }
+  if ($("#map").length != 0) {
+    google.maps.event.addDomListener(window, "load", basicmap);
+  }
+
+  // 19. Touch, no touch
+  var supports = (function () {
+    var d = document.documentElement,
+      c = "ontouchstart" in window || navigator.msMaxTouchPoints;
+    if (c) {
+      d.className += " touch";
+      return {
+        touch: true,
+      };
+    } else {
+      d.className += " no-touch";
+      return {
+        touch: false,
+      };
+    }
+  })();
+})(window.jQuery);
